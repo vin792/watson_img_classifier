@@ -146,7 +146,6 @@
 				TargetAttributes = {
 					01F0A1A61ECE1AE000847908 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = M8LZR6NRDC;
 						ProvisioningStyle = Automatic;
 					};
 					01F0A1BA1ECE1AE000847908 = {
@@ -342,7 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M8LZR6NRDC;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = HotdogNotHotdog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.HotdogNotHotdog;
@@ -355,7 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M8LZR6NRDC;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = HotdogNotHotdog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.HotdogNotHotdog;
