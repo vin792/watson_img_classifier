@@ -8,19 +8,69 @@
 // comment
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    @IBOutlet weak var cameraView: UIView!
+    
+    var captureSession : AVCaptureSession?
+    var stillImageOutput : AVCapturePhotoOutput?
+    var previewLayer : AVCaptureVideoPreviewLayer?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        previewLayer?.frame = cameraView.bounds
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        captureSession = AVCaptureSession()
+        
+        
+//   might have to change to "high"
+        captureSession?.sessionPreset = AVCaptureSessionPresetHigh
+        
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        var backCameraError : Error?
+        var input : AVCaptureDeviceInput?
+       
+        do {
+            input = try AVCaptureDeviceInput(device: backCamera)
+        } catch {
+            backCameraError = error
+        }
+    
+        if backCameraError == nil && (captureSession?.canAddInput(input))! {
+            captureSession?.addInput(input)
+            stillImageOutput = AVCapturePhotoOutput()
+// outputSettings no working!!
+//            stillImageOutput?.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
+            
+            if (captureSession?.canAddOutput(stillImageOutput))! {
+                captureSession?.addOutput(stillImageOutput)
+                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
+                cameraView.layer.addSublayer(previewLayer!)
+                captureSession?.startRunning()
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
 
