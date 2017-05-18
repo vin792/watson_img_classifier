@@ -58,6 +58,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "imageCapturedSegue" {
+            let controller = segue.destination as! ImageCapturedViewController
+            controller.capturedImage = image
+        }
+    }
+    
+    
     func didPressTakePhoto() {
         if let videoConnection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) {
             videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
@@ -82,6 +90,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if let sampleBuffer = photoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil){
             image = UIImage(data: dataImage)
+            performSegue(withIdentifier: "imageCapturedSegue", sender: nil)
         } else {
             print("FAILED AT IMAGE PROCESSING")
         }
@@ -90,6 +99,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func captureButtonPressed(_ sender: UIButton) {
         didPressTakePhoto()
+        
     }
 
     

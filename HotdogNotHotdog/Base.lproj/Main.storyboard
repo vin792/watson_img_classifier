@@ -52,10 +52,10 @@
             </objects>
             <point key="canvasLocation" x="-55.200000000000003" y="72.413793103448285"/>
         </scene>
-        <!--View Controller-->
+        <!--Image Captured View Controller-->
         <scene sceneID="LQP-sd-4iC">
             <objects>
-                <viewController id="dyf-Px-BBh" sceneMemberID="viewController">
+                <viewController id="dyf-Px-BBh" customClass="ImageCapturedViewController" customModule="HotdogNotHotdog" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nIx-A4-lQM"/>
                         <viewControllerLayoutGuide type="bottom" id="jhH-Sc-4yo"/>
@@ -76,6 +76,9 @@
                             <constraint firstItem="bha-3D-dR0" firstAttribute="leading" secondItem="GwI-IX-LMo" secondAttribute="leadingMargin" constant="-16" id="ZZe-W7-aWd"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="capturedImageView" destination="bha-3D-dR0" id="Yjd-XC-Ukj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RYM-We-aNa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

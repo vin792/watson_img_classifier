@@ -10,14 +10,19 @@ import UIKit
 
 class ImageCapturedViewController: UIViewController {
     
+    @IBOutlet weak var capturedImageView: UIImageView!
     
+    var capturedImage : UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        capturedImageView.image = capturedImage
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
 
 }
