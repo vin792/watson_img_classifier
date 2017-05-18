@@ -11,6 +11,10 @@ import UIKit
 class ImageCapturedViewController: UIViewController {
     
     @IBOutlet weak var capturedImageView: UIImageView!
+    @IBAction func newCaptureButtonPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: false)
+        dismiss(animated: false, completion: nil)
+    }
     
     var capturedImage : UIImage?
 
