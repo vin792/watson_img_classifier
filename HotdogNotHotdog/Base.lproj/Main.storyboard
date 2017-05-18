@@ -45,7 +45,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="jEe-1t-5ck" id="9gY-mm-E2R"/>
-                        <segue destination="dyf-Px-BBh" kind="show" identifier="imageCapturedSegue" id="nPN-tL-OKw"/>
+                        <segue destination="dyf-Px-BBh" kind="show" identifier="imageCapturedSegue" animates="NO" id="nPN-tL-OKw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
