@@ -9,41 +9,63 @@
 
 import UIKit
 import AVFoundation
+import Foundation
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
     
+    //Controller variables
+    var imageData: Data?
+    
+    //IB Outlets
     @IBOutlet weak var tempImageView: UIImageView!
     @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var captureButton: UIButton!
     
+    //IB Actions
+    @IBAction func captureButtonPressed(_ sender: UIButton) {
+        didPressTakePhoto()
+    }
+    
+    //Variables
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCapturePhotoOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     var image : UIImage?
     
+    //View load function
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        captureButton.layer.cornerRadius = 30
+        captureButton.clipsToBounds = true
+    }
+    
+    //Memory warning
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    //View appear functions
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         previewLayer?.frame = cameraView.bounds
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         captureSession = AVCaptureSession()
-        
-    
         captureSession?.sessionPreset = AVCaptureSessionPresetHigh
         
-        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        var backCameraError : Error?
+        let camera = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back)
+        var cameraError : Error?
         var input : AVCaptureDeviceInput?
        
         do {
-            input = try AVCaptureDeviceInput(device: backCamera)
+            input = try AVCaptureDeviceInput(device: camera)
         } catch {
-            backCameraError = error
+            cameraError = error
         }
     
-        if backCameraError == nil && (captureSession?.canAddInput(input))! {
+        if cameraError == nil && (captureSession?.canAddInput(input))! {
             captureSession?.addInput(input)
             stillImageOutput = AVCapturePhotoOutput()
 
@@ -58,28 +80,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "imageCapturedSegue" {
-            let controller = segue.destination as! ImageCapturedViewController
-            controller.capturedImage = image
-        }
-    }
-    
-    
+    //Generate photo and set photo settings
     func didPressTakePhoto() {
         if let videoConnection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) {
             videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
             let photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecJPEG])
             stillImageOutput?.capturePhoto(with: photoSettings, delegate: self)
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     //AVPhotoCapture Delegate function
@@ -88,30 +95,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             print(error.localizedDescription)
         }
         
+        //Generate photo from video stream
         if let sampleBuffer = photoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil){
             image = UIImage(data: dataImage)
+            imageData = dataImage
             performSegue(withIdentifier: "imageCapturedSegue", sender: nil)
         } else {
-            print("FAILED AT IMAGE PROCESSING")
+            print("Image processing failed")
         }
-        
     }
     
-    @IBAction func captureButtonPressed(_ sender: UIButton) {
-        didPressTakePhoto()
-        
+    //Prepare for Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "imageCapturedSegue" {
+            let controller = segue.destination as! ImageCapturedViewController
+            controller.capturedImage = image
+            controller.dataImage = imageData
+        }
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
